@@ -9,7 +9,7 @@ var uuid = require('node-uuid');
 
 var app = express();
 
-app.use('/umodel.json', falcorExpress.dataSourceRoute(function (req, res) {
+app.get('/umodel.json', falcorExpress.dataSourceRoute(function (req, res) {
 
    console.log("Req received !!!");
 
@@ -24,6 +24,6 @@ app.use('/umodel.json', falcorExpress.dataSourceRoute(function (req, res) {
    }]);
 }));
 
-app.use(express.static(__dirname + '/'));
-
-var server = app.listen(8080);
+app.listen(8080, function () {
+   console.log("Falcor Router started....");
+});
