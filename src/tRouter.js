@@ -4,15 +4,14 @@
 
 var falcorExpress = require ('falcor-express');
 var Router = require ('falcor-router');
-var express = require('express');
-var uuid = require('node-uuid');
 
+var express = require('express');
+
+var uuid = require('node-uuid');
 var app = express();
 
 app.get('/umodel.json', falcorExpress.dataSourceRoute(function (req, res) {
-
    console.log("Req received !!!");
-
    return new Router ([{
       route : "id",
       get: function () {
@@ -24,6 +23,10 @@ app.get('/umodel.json', falcorExpress.dataSourceRoute(function (req, res) {
    }]);
 }));
 
+app.use('/client', express.static('client'));
+
 app.listen(8080, function () {
    console.log("Falcor Router started....");
 });
+
+

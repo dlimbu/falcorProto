@@ -6,7 +6,7 @@ define(function (require, exports, module) {
 
    var Falcor = require('falcor');
 
-   var serverPath = "localhost:8080";
+   var serverPath = "http://localhost:8080";
 
    var FalcorTest = function () {
       this.createModel();
@@ -21,7 +21,7 @@ define(function (require, exports, module) {
    FalcorTest.prototype.sendReq = function () {
       document.write("FalcorClient sending req !!!! ");
       this.model.get("id").then(function (resp) {
-         document.write("Falcor server response " + resp);
+         document.write("\nFalcor server response " + resp.json.id);
       });
    };
 
