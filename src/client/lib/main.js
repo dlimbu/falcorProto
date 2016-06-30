@@ -112,7 +112,8 @@ requirejs(['app/falcorClient'], function (falcorClient) {
     * No diffing algorithm to make delta requests
     * or requests for only those attribute that is not
     * in the cache. So its advised to make a requests
-    * with all the attributes a view needs one time.
+    * with all the attributes a view needs one time and
+    * then work from cache.
     *
     * HTTP request
     */
