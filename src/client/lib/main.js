@@ -14,6 +14,7 @@ requirejs(['app/falcorClient'], function (falcorClient) {
    var fT = new falcorClient.FalcorTest();
 
    /**
+    * Note:
     * No unbounded requests can be made (retrieve object, Array). All requests
     * are made to retrieve paginated data sets that is
     * needed to display the UI.
@@ -35,17 +36,21 @@ requirejs(['app/falcorClient'], function (falcorClient) {
     * Retrieve action carousel data with 3 item.
     * with all attributes defined in the data set
     * for each boxArts.
+    *
+    * HTTP request
     */
    odPathArray = ["ondemand", "action",
       {
          from: 0,
          to: 2
-      },"title", "tmsId","durationMs","imageUrl"];
+      },["title", "tmsId","durationMs","imageUrl"]];
    fT.getOndemand(odPathArray);
 
    /**
     * Retrieve action carousel data with 3 item.
     * with just titles.
+    *
+    * No HTTP request i.e. data from cache.
     */
    odPathArray = ["ondemand", "action",
       {
@@ -54,9 +59,25 @@ requirejs(['app/falcorClient'], function (falcorClient) {
       },"title"];
    fT.getOndemand(odPathArray);
 
+
+   /**
+    * Retrieve action carousel data with 3 item.
+    * with just titles.
+    *
+    * No HTTP request i.e. data from cache.
+    */
+   odPathArray = ["ondemand", "action",
+      {
+         from: 0,
+         to: 2
+      },["title", "durationMs"]];
+   fT.getOndemand(odPathArray);
+
    /**
     * Retrieve comedy carousel data with 4 item.
     * with just 3 attributes
+    *
+    * HTTP request
     */
    odPathArray = ["ondemand", "comedy",
       {
@@ -70,6 +91,8 @@ requirejs(['app/falcorClient'], function (falcorClient) {
     * Paginated request WRT above.
     * Retrieve comedy carousel data with 2 items.
     * with just 3 attributes
+    *
+    * HTTP request
     */
    odPathArray = ["ondemand", "comedy",
       {
@@ -82,6 +105,16 @@ requirejs(['app/falcorClient'], function (falcorClient) {
    /**
     * Make the same 0..3 data requests for Comedy
     * but with additional attributes.
+    *
+    * ["title", "durationMs", "imageUrl"] for 0-3 is
+    * already fetched.
+    *
+    * No diffing algorithm to make delta requests
+    * or requests for only those attribute that is not
+    * in the cache. So its advised to make a requests
+    * with all the attributes a view needs one time.
+    *
+    * HTTP request
     */
    odPathArray = ["ondemand", "comedy",
       {
@@ -94,6 +127,7 @@ requirejs(['app/falcorClient'], function (falcorClient) {
    /**
     * Make the same 0..2 data requests for Comedy
     * just with tmsId.
+    * No HTTP request i.e. data from cache.
     */
    odPathArray = ["ondemand", "comedy",
       {

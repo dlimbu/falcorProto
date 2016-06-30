@@ -75,19 +75,10 @@ var scifiMovies = [
    }
 ];
 
-var titlesByTitle = {
-   "10 cent pistol": {
-      tmsId: uuid.v4(),
-      title: "10 cent pistol",
-      durationMs: 90000,
-      imageUrl: "http//imageServer.com/1233"
-   }
-};
-
 var actionMovieList = [
    {
       $type: "ref",
-      value: ["titlesByTitle","10 cent pistol"]
+      value: ["titlesById", 1234]
    },
    {
       tmsId: uuid.v4(),
@@ -126,6 +117,17 @@ var actionMovieList = [
 ];
 
 var onDemand =  {
+
+   //Common reusable data
+   titlesById: {
+      1234: {
+         "tmsId": uuid.v4(),
+         "title": "10 cent pistol",
+         "durationMs": 90000,
+         "imageUrl": "http//imageServer.com/1233"
+      }
+   },
+
    title: "onDemand",
    size: 3,
    genreList: [
