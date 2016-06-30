@@ -16,7 +16,7 @@ app.use(function (req, res, next) {
     * domain, and cannot use wild carding.  The below example would fail if the header
     * was wildcarded as: Access-Control-Allow-Origin: *.
     */
-   res.header('Access-Control-Allow-Origin', 'http://localhost:63342');
+   res.header('Access-Control-Allow-Origin', 'http://localhost');
    res.header('Access-Control-Allow-Methods', 'GET');
    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
    res.header('Access-Control-Allow-Credentials', 'true');
