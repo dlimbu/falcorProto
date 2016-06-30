@@ -50,9 +50,7 @@ app.get('/umodel.json', falcorExpress.dataSourceRoute(function (req, res) {
                      break;
                   }
                }
-
                console.log("", val);
-
                return {
                   path : ["ondemand", key],
                   value: val ? val.titles : undefined

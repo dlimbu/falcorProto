@@ -37,9 +37,19 @@ var comedyMovieObj = {
    },
    "5": {
       tmsId: uuid.v4(),
+      isEpisode: true,
       title: "Ali",
       durationMs: 70000,
       imageUrl: "http//imageServer.com/9999"
+   },
+   "6": {
+      tmsId: uuid.v4(),
+      isSeries: true,
+      title: "Ali",
+      durationMs: 70000,
+      imageUrl: "http//imageServer.com/9999",
+      seasons: 7,
+      episode: 10
    }
 };
 
@@ -83,7 +93,10 @@ var actionMovieList = [
       tmsId: uuid.v4(),
       title: "Death Squad",
       durationMs: 90000,
-      imageUrl: "http//imageServer.com/1213"
+      imageUrl: "http//imageServer.com/1213",
+      isMovie: true,
+      seasons: 7,
+      episode: 10
    },
    {
       tmsId: uuid.v4(),
@@ -118,7 +131,8 @@ var onDemand =  {
    genreList: [
       {
          name: "action",
-         titles: actionMovieList
+         titles: actionMovieList,
+         size: actionMovieList.length
       },
       {
          name: "comedy",
@@ -126,7 +140,8 @@ var onDemand =  {
       },
       {
          name: "scifi",
-         titles: scifiMovies
+         titles: scifiMovies,
+         size: scifiMovies.length
       }
    ]
 };
