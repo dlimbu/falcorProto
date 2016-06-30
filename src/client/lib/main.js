@@ -6,7 +6,7 @@ requirejs.config({
    baseUrl: 'lib',
    paths: {
       "app": "../app",
-      "falcor": "https://netflix.github.io/falcor/build/falcor.browser"
+      "falcor" : "falcor.browser"
    }
 });
 
@@ -14,20 +14,51 @@ requirejs(['app/falcorClient'], function (falcorClient) {
    var fT = new falcorClient.FalcorTest();
 
    /**
-    * All the requests returns the whole data set
-    * instead of the subset request based on our targeted
-    * request.
+    * No unbounded requests can be made (retrieve object, Array). All requests
+    * are made to retrieve paginated data sets that is
+    * needed to display the UI.
+    *
+    * Only allows retrieving of value types i.e leaf node value
+    * = This means we have to make targeted hierarchical requests.
+    *
     */
+   var odPathArray = ["ondemand", "action",
+      {
+         from: 0,
+         to: 2
+      },"title"];
+   fT.getOndemand(odPathArray);
 
-   // (from, to, value);
-   fT.getOndemand(0, 2, "title");
-   fT.getOndemand(0, 4, "title");
-   fT.getOndemand(1, 4, "title");
+   odPathArray = ["ondemand", "comedy",
+      {
+         from: 0,
+         to: 3
+      },
+      ["title","durationMs","imageUrl"]];
+   fT.getOndemand(odPathArray);
 
-   /**
-    * tmsId makes a seperate request even though the
-    * data is cache.
-    */
-   fT.getOndemand(1, 3, "tmsId");
+   odPathArray = ["ondemand", "comedy",
+      {
+         from: 4,
+         to: 6
+      },
+      ["title","durationMs","imageUrl"]];
+   fT.getOndemand(odPathArray);
+
+   odPathArray = ["ondemand", "comedy",
+      {
+         from: 0,
+         to: 3
+      },
+      ["title","durationMs","imageUrl"]];
+   fT.getOndemand(odPathArray);
+
+   odPathArray = ["ondemand", "comedy",
+      {
+         from: 0, to: 2
+      },
+      ["tmsId"]];
+   fT.getOndemand(odPathArray);
+
 });
 

@@ -5,7 +5,6 @@
 define(function (require, exports, module) {
 
    var Falcor = require('falcor');
-
    var view = document.getElementById("view");
    var serverPath = "http://localhost:8080";
 
@@ -27,17 +26,10 @@ define(function (require, exports, module) {
       return pfText;
    };
 
-   FalcorTest.prototype.getOndemand = function (afrom, ato, value) {
+   FalcorTest.prototype.getOndemand = function (pathArray) {
 
-      var odPathArray = ["ondemand", "action",
-         {
-            from: afrom,
-            to: ato
-         },
-         value];
-
-      this.model.get(odPathArray).then(function(resp) {
-         var pathArray = JSON.stringify(odPathArray, null, '  ');
+      this.model.get(pathArray).then(function(resp) {
+         pathArray = JSON.stringify(pathArray, null, '  ');
          var respStr = JSON.stringify(resp, null, '  ');
          var input = "Request.Path: "+ pathArray + "\n\n Response: " + respStr;
          view.appendChild(createTextElem(input));

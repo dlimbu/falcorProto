@@ -1,65 +1,27 @@
 /**
  * Created by Dlimbu on 6/28/16.
  */
-/**
- *
- * @type {exports}
- */
+
 var falcorExpress = require ('falcor-express');
 var Router = require ('falcor-router');
-
 var express = require('express');
-
-var uuid = require('node-uuid');
 var app = express();
 
+var dataSource = require("./dataSource");
 
-var item =  {
-   tmsId: 1233,
-   title: "10 cent pistol",
-   durationMs: 90000,
-   imageUrl: "http//imageServer.com/1233"
-};
 
-var actionMovieList = [
-   {
-      tmsId: 1233,
-      title: "10 cent pistol",
-      durationMs: 90000,
-      imageUrl: "http//imageServer.com/1233"
-   },
-   {
-      tmsId: 1213,
-      title: "Death Squad",
-      durationMs: 90000,
-      imageUrl: "http//imageServer.com/1213"
-   },
-   {
-      tmsId: 1244,
-      title: "22 Jump Street",
-      durationMs: 90000,
-      imageUrl: "http//imageServer.com/1244",
-      wildling: "I am wildling"
-   },
-   {
-      tmsId: 1255,
-      title: "3 days to Kill",
-      durationMs: 90000,
-      imageUrl: "http//imageServer.com/1255"
-   },
-   {
-      tmsId: 99,
-      title: "47 Ronin",
-      durationMs: 700080,
-      imageUrl: "http//imageServer.com/99"
-   },
-   {
-      tmsId: 9999,
-      title: "Ali",
-      durationMs: 70000,
-      imageUrl: "http//imageServer.com/9999"
-   }
-];
+app.use(function (req, res, next) {
+   /**
+    * Important note: when responding to a credentialed request,  server must specify a
+    * domain, and cannot use wild carding.  The below example would fail if the header
+    * was wildcarded as: Access-Control-Allow-Origin: *.
+    */
+   res.header('Access-Control-Allow-Origin', 'http://localhost:63342');
+   res.header('Access-Control-Allow-Methods', 'GET');
+   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+   res.header('Access-Control-Allow-Credentials', 'true');
+   next();
+});
 
 app.get('/umodel.json', falcorExpress.dataSourceRoute(function (req, res) {
 
@@ -67,23 +29,35 @@ app.get('/umodel.json', falcorExpress.dataSourceRoute(function (req, res) {
 
    return new Router ([
       {
-         route : "id",
+         route : "ondemand",
          get: function (pathSet) {
+            console.log ("onDemand pathSet: ", pathSet);
             return {
-               path: ["id"],
-               value: uuid.v4()
+               path: ["ondemand"],
+               value: dataSource.onDemand
             }
          }
       },
-
       {
-         route: "ondemand.action",
+         route: 'ondemand["action", "comedy", "scifi"]',
          get: function (pathSet) {
-            console.log ("onDemand.action pathSet: ", pathSet);
-            return {
-               path:["ondemand", "action"],
-               value: actionMovieList
-            }
+            console.log ("pathSet: ", pathSet[1][0]);
+            return pathSet[1].map(function (key) {
+               var val;
+               for (var i = 0; i < dataSource.onDemand.genreList.length; i++) {
+                  if (dataSource.onDemand.genreList[i].name === key) {
+                     val = dataSource.onDemand.genreList[i];
+                     break;
+                  }
+               }
+
+               console.log("", val);
+
+               return {
+                  path : ["ondemand", key],
+                  value: val ? val.titles : undefined
+               }
+            });
          }
       }
    ]);
@@ -95,8 +69,3 @@ app.use('/client', express.static(root + 'client'));
 app.listen(8080, function () {
    console.log("Falcor Router started....");
 });
-
-/**
- * TODO:
- * 1. Enable CORS.
- */
