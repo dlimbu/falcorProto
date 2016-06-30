@@ -13,13 +13,36 @@ requirejs.config({
 requirejs(['app/falcorClient'], function (falcorClient) {
    var fT = new falcorClient.FalcorTest();
 
+
    /**
     * Note:
     * No unbounded requests can be made (retrieve object, Array). All requests
-    * are made to retrieve paginated data sets that is
+    * are made to retrieve paginated leaf node data sets that is
     * needed to display the UI.
+    * 
+    * It is only legal to retrieve value types from a JSON Graph object.
+    * Recall that these are the JSON value types:
+    * - null
+    * - string
+    * - number
+    * - true
+    * - false
     *
-    * Only allows retrieving of value types i.e leaf node value's
+    * Only allows retrieving of value types i.e leaf value's
+    *
+    * e.g.
+    *    var onDemand =  {
+    *       title: "onDemand",
+    *       size: 3,
+    *       genreList: [
+    *         {
+    *           name: "action",
+    *           titles: actionMovieList,
+    *           size: actionMovieList.length
+    *         }
+    *         .........
+    *       ]
+    *    };
     */
 
    /**
@@ -59,6 +82,25 @@ requirejs(['app/falcorClient'], function (falcorClient) {
       },"title"];
    fT.getOndemand(odPathArray);
 
+   /**
+    * Retrieve action carousel 2 item, with title and imageUrl only.
+    * No HTTP request i.e. data from cache.
+    */
+   var atIndex = 2;
+   odPathArray = ["ondemand", "action", atIndex , ["title", "imageUrl"]];
+   fT.getOndemand(odPathArray);
+
+//
+// TODO: And operation to make multi level call, i.e. aggregate properties from different levels in hierarchy.
+// E.g. get(
+//   "genrelists[0..3].name",
+//      "genrelists[0..3].titles[0..4]['name','boxshot']")
+
+//   var odPathArray =["ondemand", "action", "genreList", {from: 0, to: 3}, "titles", {from:0, to:4}, ['title','tmsId','imageUrl']];
+//   var odPathString = "ondemand.action.genreList[0..3].name";
+//   var odPathString2 = "ondemand.action.genreList[0..3].tiot"
+//   fT.getOndemand(odPathArray);
+//
 
    /**
     * Retrieve action carousel data with 3 item.
