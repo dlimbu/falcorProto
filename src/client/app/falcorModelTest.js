@@ -201,7 +201,7 @@ define (function (require, exports, module) {
       /**
        * Test dedup i.e. property reuse.
        */
-      testDedup : function () {
+      testLocalDedup : function () {
          var $ref = Falcor.Model.ref;
          var actionMovieList = [
 //            $ref('titlesById[9292]'),
@@ -324,7 +324,7 @@ define (function (require, exports, module) {
          this.testAction();
          this.testComedy();
          this.testMultiLevelReq();
-         this.testDedup();
+         this.testLocalDedup();
       }
    };
 
