@@ -116,7 +116,7 @@ var actionMovieList = [
 
 var onDemand =  {
 
-   //Common reusable data
+   //dedup support.
    titlesById: {
       9292: {
          "tmsId": uuid.v4(),

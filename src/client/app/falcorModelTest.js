@@ -243,8 +243,7 @@ define (function (require, exports, module) {
          ];
 
          var onDemand =  {
-
-            //Common reusable data
+            //dedup support.
             titlesById: {
                9292: {
                   "tmsId": 234,
