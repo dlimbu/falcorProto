@@ -1,5 +1,5 @@
-
 var uuid = require('node-uuid');
+var falcor = require('./falcor');
 
 var comedyMovieObj = {
    "0": {
@@ -74,6 +74,8 @@ var scifiMovies = [
       wildling: "I am wildling"
    }
 ];
+
+var $ref = falcor.Model.ref;
 
 var actionMovieList = [
    { $type: "ref", value: ["titlesById", 9292] },
