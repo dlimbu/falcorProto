@@ -6,9 +6,7 @@ var falcorExpress = require ('falcor-express');
 var Router = require ('falcor-router');
 var express = require('express');
 var app = express();
-
 var dataSource = require("./dataSource");
-
 
 app.use(function (req, res, next) {
    /**
@@ -39,6 +37,10 @@ app.get('/umodel.json', falcorExpress.dataSourceRoute(function (req, res) {
          }
       },
       {
+         /**
+          * For specific targeted requests
+          * within the unified model.
+          */
          route: 'ondemand["action", "comedy", "scifi"]',
          get: function (pathSet) {
             console.log ("pathSet: ", pathSet[1][0]);
