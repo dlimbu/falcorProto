@@ -28,12 +28,18 @@ define(function (require, exports, module) {
 
    FalcorModelAdapter.prototype.varArgsOdReq = function (varAargs) {
       var args = arguments;
+      var self = this;
       this.model.get.apply(this.model, arguments).then(function(resp) {
          varAargs = JSON.stringify(args, null, '  ');
          var respStr = JSON.stringify(resp, null, '  ');
-         var input = "Request.Path: "+ varAargs + "\n\n Response: " + respStr;
-         view.appendChild(createTextElem(input));
+         var input = "Request.Path: "+ varAargs + "\n\nResponse: " + respStr;
+         self.addToScreen(input);
       })
+   };
+
+   FalcorModelAdapter.prototype.addToScreen = function (str) {
+      var txt = createTextElem(str);
+      view.appendChild(txt);
    };
 
    exports.FalcorModelAdapter = FalcorModelAdapter;

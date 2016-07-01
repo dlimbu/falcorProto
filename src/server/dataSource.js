@@ -76,10 +76,8 @@ var scifiMovies = [
 ];
 
 var actionMovieList = [
-   {
-      $type: "ref",
-      value: ["titlesById", 1234]
-   },
+   { $type: "ref", value: ["titlesById", 9292] },
+   { $type: "ref", value: ["titlesById", 9293] },
    {
       tmsId: uuid.v4(),
       title: "Death Squad",
@@ -120,11 +118,17 @@ var onDemand =  {
 
    //Common reusable data
    titlesById: {
-      1234: {
+      9292: {
          "tmsId": uuid.v4(),
          "title": "10 cent pistol",
          "durationMs": 90000,
-         "imageUrl": "http//imageServer.com/1233"
+         "imageUrl": "http//imageServer.com/9292"
+      },
+      9293: {
+         "tmsId": uuid.v4(),
+         "title": "A-Team",
+         "durationMs": 70000,
+         "imageUrl": "http//imageServer.com/9293"
       }
    },
 

@@ -8,6 +8,9 @@ var express = require('express');
 var app = express();
 var dataSource = require("./dataSource");
 
+
+var FalcorModel = Router.Model;
+
 app.use(function (req, res, next) {
    /**
     * Important note: when responding to a credentialed request,  server must specify a
@@ -25,6 +28,7 @@ app.get('/umodel.json', falcorExpress.dataSourceRoute(function (req, res) {
 
    console.log("Req received !!!");
 
+   console.log("Falcore model ", FalcorModel);
    return new Router ([
       {
          route : "ondemand",

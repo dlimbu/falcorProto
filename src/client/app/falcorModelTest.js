@@ -4,6 +4,7 @@
 define (function (require, exports, module) {
 
    var falcorModelAdapter = require('falcorModelAdapter');
+   var Falcor = require('falcor');
 
    /**
     * Note:
@@ -82,10 +83,11 @@ define (function (require, exports, module) {
          this.fA.varArgsOdReq(odPathArray);
 
          /**
-          * Retrieve action carousel 2 item, with title and imageUrl only.
+          * Retrieve action carousel
+          * 0th item is a common copy within the unified.
           * No HTTP request i.e. data from cache.
           */
-         var atIndex = 2;
+         var atIndex = 0;
          odPathArray = ["ondemand", "action", atIndex , ["title", "imageUrl"]];
          this.fA.varArgsOdReq(odPathArray);
 
@@ -197,6 +199,91 @@ define (function (require, exports, module) {
       },
 
       /**
+       * Test dedup i.e. property reuse.
+       */
+      testDedup : function () {
+         var $ref = Falcor.Model.ref;
+         var actionMovieList = [
+//            $ref('titlesById[9292]'),
+            { $type: "ref", value: ["titlesById", 9292] },
+            {
+               tmsId: 234234,
+               title: "Death Squad",
+               durationMs: 90000,
+               imageUrl: "http//imageServer.com/1213",
+               isMovie: true,
+               seasons: 7,
+               episode: 10
+            },
+            {
+               tmsId: 2234,
+               title: "22 Jump Street",
+               durationMs: 90000,
+               imageUrl: "http//imageServer.com/1244",
+               wildling: "I am wildling"
+            },
+            {
+               tmsId: 123,
+               title: "3 days to Kill",
+               durationMs: 90000,
+               imageUrl: "http//imageServer.com/1255"
+            },
+            {
+               tmsId: 567,
+               title: "47 Ronin",
+               durationMs: 700080,
+               imageUrl: "http//imageServer.com/99"
+            },
+            {
+               tmsId: 865,
+               title: "Ali",
+               durationMs: 70000,
+               imageUrl: "http//imageServer.com/9999"
+            }
+         ];
+
+         var onDemand =  {
+
+            //Common reusable data
+            titlesById: {
+               9292: {
+                  "tmsId": 234,
+                  "title": "10 cent pistol",
+                  "durationMs": 90000,
+                  "imageUrl": "http//imageServer.com/9292"
+               },
+               9293: {
+                  "tmsId": 345,
+                  "title": "A-Team",
+                  "durationMs": 70000,
+                  "imageUrl": "http//imageServer.com/9293"
+               }
+            },
+
+            title: "onDemand",
+            size: 3,
+            genreList: [
+               {
+                  name: "action",
+                  titles: actionMovieList,
+                  size: actionMovieList.length
+               }
+            ]
+         };
+
+         var model = new Falcor.Model ({
+            cache : onDemand
+         });
+
+         console.log("cache: ", model.getCache());
+         var self = this;
+         model.get('genreList[0].titles[0]["title", "durationMs", "imageUrl"]').then(function (x) {
+            var input = JSON.stringify(x, null, "  ");
+            self.fA.addToScreen("Local Model Dedup test:\nResponse: " + input);
+         })
+      },
+
+      /**
        * Multi level requests.
        */
       testMultiLevelReq: function () {
@@ -222,16 +309,22 @@ define (function (require, exports, module) {
 
          this.fA.varArgsOdReq(odPathString0, odPathString1, odPathString2);
 
-         var titleAt = 1; //comedy title index.
-         odPathArray = ["ondemand", "genreList", titleAt, ["name"]];
+         //Remote model dedup test.
+         var titleAt = 0; //action title index.
+         var odPathArray = "ondemand.genreList[0].titles[0]['title', 'durationMs', 'imageUrl']";
          this.fA.varArgsOdReq(odPathArray);
-
       },
 
       test: function () {
+
+         if (!this.fA) {
+            this.init();
+         }
+
          this.testAction();
          this.testComedy();
          this.testMultiLevelReq();
+         this.testDedup();
       }
    };
 
