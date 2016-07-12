@@ -1,7 +1,7 @@
 /**
  * Created by Dlimbu on 6/28/16.
  */
-
+'use strict';
 requirejs.config({
    baseUrl: 'lib',
    paths: {

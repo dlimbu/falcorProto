@@ -2,6 +2,7 @@
  * Created by Dlimbu on 7/1/16.
  */
 define (function (require, exports, module) {
+   'use strict';
 
    var falcorModelAdapter = require('falcorModelAdapter');
    var Falcor = require('falcor');

@@ -1,6 +1,7 @@
 /**
  * Created by Dlimbu on 6/28/16.
  */
+'use strict';
 
 var falcorExpress = require ('falcor-express');
 var Router = require ('falcor-router');
@@ -67,7 +68,7 @@ app.get('/umodel.json', falcorExpress.dataSourceRoute(function (req, res) {
    ]);
 }));
 
-var root  = __dirname.replace("server","");
+var root  = __dirname.replace("/server/","");
 app.use('/client', express.static(root + 'client'));
 
 app.listen(8080, function () {
